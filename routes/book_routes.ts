@@ -4,8 +4,8 @@ import pool from "../helpers/db";
 const routes = (app: express.Application) => {
 
     app.post("/book/create", (req, res) => {
-        const { name, img_url, goodreads_link, amazon_link } = req.body;
-        const query: string = `INSERT INTO BOOK (NAME, IMG_URL, GOODREADS_LINK, AMAZON_LINK) VALUES ("${name}", "${img_url}", "${goodreads_link}", "${amazon_link}");`;
+        const { name, author, img_url, goodreads_link, amazon_link } = req.body;
+        const query: string = `INSERT INTO BOOK (NAME, AUTHOR, IMG_URL, GOODREADS_LINK, AMAZON_LINK) VALUES ("${name}", "${author}", "${img_url}", "${goodreads_link}", "${amazon_link}");`;
 
         pool.query(query, (err, results, fields) => {
             if (err) {
