@@ -26,7 +26,10 @@ const routes = (app: express.Application) => {
         pool.query(query, (err, results, fields) => {
             if (err) {
                 console.log(err.message);
-                res.json({ success: false });
+                res.json({ 
+                    success: false,
+                    results: []
+                });
             } else {
                 console.log(results);
                 res.json({
