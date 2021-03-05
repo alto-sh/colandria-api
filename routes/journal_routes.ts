@@ -6,8 +6,6 @@ const routes = (app: express.Application) => {
 
     app.post("/journal/entry/create", (req, res) => {
         const { user_id, book_id } = req.body;
-        console.log(user_id);
-        console.log(book_id);
         const query: string = `INSERT INTO JOURNAL_ENTRY (USER_ID, BOOK_ID) VALUES ("${user_id}", ${book_id});`;
 
         pool.query(query, (err, results, fields) => {
@@ -51,6 +49,40 @@ const routes = (app: express.Application) => {
             }
         })
     });
+
+    app.get("/journal/entry/get/:bookid/:userid", (req, res) => {
+        const query: string = `SELECT * FROM JOURNAL_ENTRY WHERE USER_ID="${req.params.userid}" AND BOOK_ID="${req.params.bookid}"`;
+
+        pool.query(query, (err, results, fields) => {
+            if (err) {
+                console.log(err);
+                res.json({ success: false });
+            } else {
+                const query: string = (
+                    results.length === 0 ? 
+                    `INSERT INTO JOURNAL_ENTRY (USER_ID, BOOK_ID) VALUES ("${req.params.userid}", ${req.params.bookid})` 
+                    : `DELETE FROM JOURNAL_ENTRY WHERE USER_ID="${req.params.userid}" AND BOOK_ID="${req.params.bookid}"`
+                );
+                pool.query(query, (err, results, fields) => { 
+                    if(err) console.log(err);
+                    else console.log(results);
+                });
+                res.json({ success: true });
+            }
+        });
+    });
+
+    app.get("/journal/entry/get/val/:bookid/:userid", (req, res) => {
+        const query: string = `SELECT * FROM JOURNAL_ENTRY WHERE USER_ID="${req.params.userid}" AND BOOK_ID="${req.params.bookid}"`;
+
+        pool.query(query, (err, results, fields) => {
+            if (err || results.length === 0) {
+                res.json({ success: false });
+            } else {
+                res.json({ success: true });
+            }
+        })
+    })
 
     app.delete("/journal/entry/delete/:id", (req, res) => {
         const query: string = `DELETE FROM JOURNAL_ENTRY WHERE ID=${req.params.id}`;
