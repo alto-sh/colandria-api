@@ -62,6 +62,23 @@ const routes = (app: express.Application) => {
         })
     });
 
+    app.get("/book/get/single/:id", (req, res) => {
+        const query: string = `SELECT * FROM BOOK WHERE ID=${req.params.id}`;
+
+        pool.query(query, (err, results, fields) => {
+            if (err) {
+                console.log(err.message);
+                res.json({ success: false });
+            } else {
+                console.log(results);
+                res.json({
+                    success: true,
+                    results: results[0]
+                });
+            }
+        })
+    });
+
 }
 
 export default routes;

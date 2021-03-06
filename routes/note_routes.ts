@@ -4,8 +4,8 @@ import pool from "../helpers/db";
 const routes = (app: express.Application) => {
 
     app.post("/note/create", (req, res) => {
-        const { header, body, entry_id } = req.body;
-        const query: string = `INSERT INTO NOTE (HEADER, BODY, ENTRY_ID) VALUES ("${header}", "${body}", "${entry_id}");`;
+        const { user_id, header, body, book_id } = req.body;
+        const query: string = `INSERT INTO NOTE (USER_ID, HEADER, BODY, BOOK_ID) VALUES ("${user_id}", "${header}", "${body}", "${book_id}");`;
 
         pool.query(query, (err, results, fields) => {
             if (err) {
@@ -20,8 +20,8 @@ const routes = (app: express.Application) => {
         });
     });
 
-    app.get("/note/get/:id", (req, res) => {
-        const query: string = `SELECT * FROM NOTE WHERE ID=${req.params.id}`;
+    app.get("/note/get/:userid", (req, res) => {
+        const query: string = `SELECT * FROM NOTE WHERE USER_ID="${req.params.userid}"`;
 
         pool.query(query, (err, results, fields) => {
             if (err) {
