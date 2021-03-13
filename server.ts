@@ -12,7 +12,7 @@ app.options("*", cors({
     origin: "*"
 }));
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
 import routes from "./routes/index";
 routes(app)
