@@ -3,10 +3,11 @@ import mysql from "mysql";
 // Configure Connection
 const pool = mysql.createPool({
     connectionLimit: 10,
-    host: "localhost",
-    user: "root",
-    password: "root",
-    database: "hibernate_db"
+    host: "colandria-db.ch5ivqsjuyzb.us-east-2.rds.amazonaws.com",
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: "colandria_db",
+    port: 3306
 });
 
 const create_book_table_query = `
